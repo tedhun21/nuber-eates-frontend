@@ -2,8 +2,8 @@ import React from "react";
 
 function App() {
   return (
-    <div className="alert">
-      <h1 className="text-xl text-black">Hello Tailwind</h1>
+    <div className="bg-black">
+      <h1 className="text-xl text-white">Hello Tailwind</h1>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import { useReactiveVar } from "@apollo/client";
-import { isLoggedInVar } from "../apollo";
-import LoggedInRouter from "../routes/logged-in-router";
-import LoggedOutRouter from "../routes/logged-out-router";
+import { Outlet } from "react-router-dom";
 
 export default function Root() {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  return <>{isLoggedIn ? <LoggedInRouter /> : <LoggedOutRouter />}</>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 }

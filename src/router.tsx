@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
+import { Login } from "./routes/login";
 import Root from "./components/Root";
-import LoggedInRouter from "./routes/logged-in-router";
-import LoggedOutRouter from "./routes/logged-out-router";
+import { CreateAccount } from "./routes/create-account";
 
 export const router = createBrowserRouter([
   {
@@ -10,11 +10,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <LoggedOutRouter />,
+        element: <Login />,
       },
       {
-        path: "loggedIn",
-        element: <LoggedInRouter />,
+        path: "create-account",
+        element: <CreateAccount />,
       },
     ],
   },

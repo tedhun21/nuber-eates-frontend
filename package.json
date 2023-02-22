@@ -22,7 +22,7 @@
   },
   "scripts": {
     "tailwind:watch": "npx tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/global.css --watch",
-    "dev": " npm run tailwind:watch & react-scripts start && kill $!",
+    "dev": "react-scripts start & npm run tailwind:watch && kill $!",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "autoprefixer": "10.4.13",
+    "postcss": "8.4.21",
     "prettier": "2.8.4",
     "prettier-plugin-tailwindcss": "0.2.3",
     "tailwindcss": "3.2.7"

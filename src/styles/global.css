@@ -637,10 +637,6 @@ video {
   max-width: 32rem;
 }
 
-.flex-col {
-  flex-direction: column;
-}
-
 .items-center {
   align-items: center;
 }
@@ -674,10 +670,6 @@ video {
 
 .pb-7 {
   padding-bottom: 1.75rem;
-}
-
-.pt-5 {
-  padding-top: 1.25rem;
 }
 
 .pt-10 {

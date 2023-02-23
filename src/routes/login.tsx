@@ -1,16 +1,18 @@
-import { gql, useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useForm } from "react-hook-form";
 import FormError from "../components/form-error";
+import { graphql } from "../gql/gql";
+import { LoginMutation, LoginMutationVariables } from "../gql/graphql";
 
-const LOGIN_MUTATION = gql`
-  mutation PotatoMutation($email: String!, $password: String!) {
+const LOGIN_MUTATION = graphql(`
+  mutation Login($email: String!, $password: String!) {
     login(input: { email: $email, password: $password }) {
       ok
       error
       token
     }
   }
-`;
+`);
 
 interface ILoginForm {
   email: string;
@@ -18,7 +20,7 @@ interface ILoginForm {
 }
 
 export default function Login() {
-  const [loginMutation, { data, loading, error }] = useMutation(LOGIN_MUTATION);
+  const [loginMutation, { data }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION);
   console.log(data);
   const {
     register,

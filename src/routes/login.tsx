@@ -7,6 +7,7 @@ import FormError from "../components/form-error";
 import { graphql } from "../gql/gql";
 import { LogInMutation, LogInMutationVariables } from "../gql/graphql";
 import nuberLogo from "../images/logo.svg";
+import { isLoggedInVar } from "../apollo";
 
 const LOGIN_MUTATION = graphql(`
   mutation LogIn($loginInput: LoginInput!) {
@@ -35,6 +36,7 @@ export default function Login() {
     } = data;
     if (ok) {
       console.log(token);
+      isLoggedInVar(true);
     } else {
       if (error) {
       }
@@ -57,15 +59,20 @@ export default function Login() {
         <img src={nuberLogo} className="mb-5 w-52" />
         <h4 className="w-full text-3xl font-medium">Welcome Back</h4>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-5 mb-3 grid w-full gap-3">
-          <input {...register("email", { required: "Email is required" })} required type="email" placeholder="Email" className="input" />
-          {errors.email?.message && <FormError errorMessage={errors.email?.message} />}
           <input
-            {...register("password", { required: "Password is required", minLength: 10 })}
+            {...register("email", {
+              required: "Email is required",
+              pattern:
+                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            })}
             required
-            type="password"
-            placeholder="Password"
+            type="email"
+            placeholder="Email"
             className="input"
           />
+          {errors.email?.message && <FormError errorMessage={errors.email?.message} />}
+          {errors.email?.type === "pattern" && <FormError errorMessage={"Please enter a valid email"} />}
+          <input {...register("password", { required: "Password is required" })} required type="password" placeholder="Password" className="input" />
           {errors.password?.message && <FormError errorMessage={errors.password?.message} />}
           {errors.password?.type === "minLength" && <FormError errorMessage="Password must be more 10 chars" />}
           <Button canClick={isValid} loading={loading} actionText={"Log In"} />

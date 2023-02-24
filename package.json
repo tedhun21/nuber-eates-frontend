@@ -20,7 +20,7 @@
   },
   "scripts": {
     "tailwind:watch": "npx tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/global.css --watch",
-    "dev": "react-scripts start & npm run tailwind:watch && kill $!",
+    "dev": "npm run codegen & react-scripts start & npm run tailwind:watch && kill $!",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

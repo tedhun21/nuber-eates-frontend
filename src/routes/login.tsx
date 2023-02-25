@@ -1,13 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import Button from "../components/button";
 import FormError from "../components/form-error";
 import { graphql } from "../gql/gql";
 import { LogInMutation, LogInMutationVariables } from "../gql/graphql";
 import nuberLogo from "../images/logo.svg";
-import { isLoggedInVar } from "../apollo";
+import { authToken, isLoggedInVar } from "../apollo";
+import { LOCALSTORAGE_TOKEN } from "../constants";
 
 const LOGIN_MUTATION = graphql(`
   mutation LogIn($loginInput: LoginInput!) {
@@ -25,6 +26,7 @@ interface ILoginForm {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -34,12 +36,12 @@ export default function Login() {
     const {
       login: { ok, error, token },
     } = data;
-    if (ok) {
+    if (ok && token) {
       console.log(token);
+      localStorage.setItem(LOCALSTORAGE_TOKEN, token);
+      authToken(token);
       isLoggedInVar(true);
-    } else {
-      if (error) {
-      }
+      navigate("/home");
     }
   };
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<LogInMutation, LogInMutationVariables>(LOGIN_MUTATION, { onCompleted });

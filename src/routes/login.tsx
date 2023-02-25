@@ -5,13 +5,13 @@ import { Helmet } from "react-helmet-async";
 import Button from "../components/button";
 import FormError from "../components/form-error";
 import { graphql } from "../gql/gql";
-import { LogInMutation, LogInMutationVariables } from "../gql/graphql";
+import { LoginMutation, LoginMutationVariables } from "../gql/graphql";
 import nuberLogo from "../images/logo.svg";
 import { authToken, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constants";
 
 const LOGIN_MUTATION = graphql(`
-  mutation LogIn($loginInput: LoginInput!) {
+  mutation Login($loginInput: LoginInput!) {
     login(input: $loginInput) {
       ok
       error
@@ -32,7 +32,7 @@ export default function Login() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<ILoginForm>();
-  const onCompleted = (data: LogInMutation) => {
+  const onCompleted = (data: LoginMutation) => {
     const {
       login: { ok, error, token },
     } = data;
@@ -44,7 +44,7 @@ export default function Login() {
       navigate("/home");
     }
   };
-  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<LogInMutation, LogInMutationVariables>(LOGIN_MUTATION, { onCompleted });
+  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, { onCompleted });
   const onSubmit = ({ email, password }: ILoginForm) => {
     if (!loading) {
       loginMutation({

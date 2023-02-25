@@ -1,5 +1,7 @@
 import { useQuery } from "@apollo/client";
+import { Navigate } from "react-router-dom";
 import { graphql } from "../gql";
+import Restaurants from "./client/restaurants";
 
 const ME_QUERY = graphql(`
   query Me {
@@ -22,10 +24,5 @@ export default function Home() {
       </div>
     );
   }
-  return (
-    <div>
-      <h2>Home</h2>
-      <h1>{data.me.role}</h1>
-    </div>
-  );
+  return <div>{data.me.role === "Client" ? <Restaurants /> : <Navigate to="/" />}</div>;
 }

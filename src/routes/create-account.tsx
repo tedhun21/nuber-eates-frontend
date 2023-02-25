@@ -65,7 +65,7 @@ export default function CreateAccount() {
             {...register("email", {
               required: "Email is required",
               pattern:
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             })}
             type="email"
             placeholder="Email"
@@ -86,7 +86,7 @@ export default function CreateAccount() {
         </form>
         <div>
           Already have an account{" "}
-          <Link to="/login" className="text-lime-600">
+          <Link to="/" className="text-lime-600">
             Log In Now
           </Link>
         </div>

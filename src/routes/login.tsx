@@ -57,7 +57,7 @@ export default function Login() {
         <title>Login | Nuber Eats</title>
       </Helmet>
       <div className="flex w-full max-w-screen-sm flex-col items-center px-5">
-        <img src={nuberLogo} className="mb-5 w-52" />
+        <img src={nuberLogo} className="mb-5 w-52" alt="Nuber Eats" />
         <h4 className="w-full text-3xl font-medium">Welcome Back</h4>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-5 mb-3 grid w-full gap-3">
           <input

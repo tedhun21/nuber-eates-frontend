@@ -1,5 +1,6 @@
 import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { graphql } from "../../gql";
 import { VerifyEmailMutation, VerifyEmailMutationVariables } from "../../gql/graphql";
 import { useMe } from "../../hooks/useMe";
@@ -16,6 +17,7 @@ const VERIFY_EMAIL_MUTATION = graphql(`
 export const ConfirmEmail = () => {
   const { data: userData } = useMe();
   const client = useApolloClient();
+  const history = useHistory();
   const onCompleted = (data: VerifyEmailMutation) => {
     const {
       verifyEmail: { ok },
@@ -33,19 +35,20 @@ export const ConfirmEmail = () => {
         },
       });
     }
+    history.push("/");
   };
   const [verifyEmailMutation, { loading: verifyingEmail }] = useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VERIFY_EMAIL_MUTATION, {
     onCompleted,
   });
   useEffect(() => {
     const [_, code] = window.location.href.split("code=");
-    /* verifyEmailMutation({
+    verifyEmailMutation({
       variables: {
         verifyEmailInput: {
           code,
         },
       },
-    }); */
+    });
   }, []);
   return (
     <div className="mt-52 flex flex-col items-center justify-center">

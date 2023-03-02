@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import Button from "../components/button";
 import FormError from "../components/form-error";
 import { graphql } from "../gql/gql";
-import { CreateAccountInput, CreateAccountMutation, CreateAccountMutationVariables, UserRole } from "../gql/graphql";
+import { CreateAccountMutation, CreateAccountMutationVariables, UserRole } from "../gql/graphql";
 import nuberLogo from "../images/logo.svg";
 
 const CREATE_ACCOUNT_MUTATION = graphql(`
@@ -36,7 +36,7 @@ export default function CreateAccount() {
     } = data;
     if (ok) {
       alert("Acoount Created! Log in now!");
-      history.push("/login");
+      history.push("/");
     }
   };
   const [createAccountMutation, { data: createAccountMutationResult, loading }] = useMutation<CreateAccountMutation, CreateAccountMutationVariables>(
@@ -58,7 +58,7 @@ export default function CreateAccount() {
         <title>Nuber | Create Account</title>
       </Helmet>
       <div className="flex w-full max-w-screen-sm flex-col items-center px-5">
-        <img src={nuberLogo} className="mb-5 w-52" />
+        <img src={nuberLogo} className="mb-5 w-52" alt="Nuber Eats" />
         <h4 className="w-full text-3xl font-medium">Let's get started</h4>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-5 mb-3 grid w-full gap-3">
           <input

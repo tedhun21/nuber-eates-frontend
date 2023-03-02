@@ -1,7 +1,8 @@
-import { useMutation } from "@apollo/client";
+import { gql, useApolloClient, useMutation } from "@apollo/client";
 import { useEffect } from "react";
 import { graphql } from "../../gql";
 import { VerifyEmailMutation, VerifyEmailMutationVariables } from "../../gql/graphql";
+import { useMe } from "../../hooks/useMe";
 
 const VERIFY_EMAIL_MUTATION = graphql(`
   mutation VerifyEmail($verifyEmailInput: VerifyEmailInput!) {
@@ -13,7 +14,29 @@ const VERIFY_EMAIL_MUTATION = graphql(`
 `);
 
 export const ConfirmEmail = () => {
-  const [verifyEmailMutation, { data, loading: verifyingEmail, error }] = useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VERIFY_EMAIL_MUTATION);
+  const { data: userData } = useMe();
+  const client = useApolloClient();
+  const onCompleted = (data: VerifyEmailMutation) => {
+    const {
+      verifyEmail: { ok },
+    } = data;
+    if (ok && userData?.me.id) {
+      client.writeFragment({
+        id: `User:${userData?.me.id}`,
+        fragment: gql`
+          fragment VerifiedUser on User {
+            verified
+          }
+        `,
+        data: {
+          verified: true,
+        },
+      });
+    }
+  };
+  const [verifyEmailMutation, { loading: verifyingEmail }] = useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VERIFY_EMAIL_MUTATION, {
+    onCompleted,
+  });
   useEffect(() => {
     const [_, code] = window.location.href.split("code=");
     /* verifyEmailMutation({

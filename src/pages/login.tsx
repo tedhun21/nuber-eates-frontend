@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Button from "../components/button";
 import FormError from "../components/form-error";
@@ -26,7 +26,6 @@ interface ILoginForm {
 }
 
 export default function Login() {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -34,13 +33,12 @@ export default function Login() {
   } = useForm<ILoginForm>();
   const onCompleted = (data: LoginMutation) => {
     const {
-      login: { ok, error, token },
+      login: { ok, token },
     } = data;
     if (ok && token) {
       localStorage.setItem(LOCALSTORAGE_TOKEN, token);
       authToken(token);
       isLoggedInVar(true);
-      navigate("/home");
     }
   };
   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_MUTATION, { onCompleted });

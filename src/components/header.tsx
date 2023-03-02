@@ -4,15 +4,22 @@ import { useMe } from "../hooks/useMe";
 import nuberLogo from "../images/logo.svg";
 
 export default function Header() {
-  const { data, loading, error } = useMe();
+  const { data } = useMe();
   return (
-    <header className="py-4">
-      <div className="mx-auto flex max-w-screen-xl items-center justify-between px-5 xl:px-0">
-        <img src={nuberLogo} className="w-24" alt="Nuber Eats" />
-        <span className="text-sm">
-          <FontAwesomeIcon icon={faUser} className="text-xl" />
-        </span>
-      </div>
-    </header>
+    <>
+      {!data?.me.verified && (
+        <div className="bg-red-500 p-3 text-center text-xs text-white">
+          <span>Please verify your email.</span>
+        </div>
+      )}
+      <header className="py-4">
+        <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-5 xl:px-0">
+          <img src={nuberLogo} className="w-24" alt="Nuber Eats" />
+          <span className="text-xs">
+            <FontAwesomeIcon icon={faUser} className="text-xl" />
+          </span>
+        </div>
+      </header>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Button from "../components/button";
 import FormError from "../components/form-error";
@@ -29,14 +29,14 @@ export default function CreateAccount() {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<ICreateAccountForm>({ defaultValues: { role: UserRole.Client } });
-  const navigate = useNavigate();
+  const history = useHistory();
   const onCompleted = (data: CreateAccountMutation) => {
     const {
       createAccount: { ok },
     } = data;
     if (ok) {
       alert("Acoount Created! Log in now!");
-      navigate("/login");
+      history.push("/login");
     }
   };
   const [createAccountMutation, { data: createAccountMutationResult, loading }] = useMutation<CreateAccountMutation, CreateAccountMutationVariables>(

@@ -17,34 +17,34 @@ export type Scalars = {
 };
 
 export type AllCategoriesOutput = {
-  categories: Maybe<Array<Category>>;
-  error: Maybe<Scalars['String']>;
+  categories?: Maybe<Array<Category>>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type Category = {
-  coverImg: Maybe<Scalars['String']>;
+  coverImg?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Float'];
   name: Scalars['String'];
   restaurantCount: Scalars['Float'];
-  restaurants: Maybe<Array<Restaurant>>;
+  restaurants?: Maybe<Array<Restaurant>>;
   slug: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type CategoryInput = {
-  page: Scalars['Int'];
+  page?: Scalars['Int'];
   slug: Scalars['String'];
 };
 
 export type CategoryOutput = {
-  category: Maybe<Category>;
-  error: Maybe<Scalars['String']>;
+  category?: Maybe<Category>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  restaurants: Maybe<Array<Restaurant>>;
-  totalPages: Maybe<Scalars['Int']>;
-  totalResults: Maybe<Scalars['Int']>;
+  restaurants?: Maybe<Array<Restaurant>>;
+  totalPages?: Maybe<Scalars['Int']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type CreateAccountInput = {
@@ -54,20 +54,20 @@ export type CreateAccountInput = {
 };
 
 export type CreateAccountOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type CreateDishInput = {
   description: Scalars['String'];
   name: Scalars['String'];
-  options: InputMaybe<Array<DishOptionInputType>>;
+  options?: InputMaybe<Array<DishOptionInputType>>;
   price: Scalars['Int'];
   restaurantId: Scalars['Int'];
 };
 
 export type CreateDishOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -82,7 +82,7 @@ export type CreateOrderItemInput = {
 };
 
 export type CreateOrderOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -92,24 +92,24 @@ export type CreatePaymentInput = {
 };
 
 export type CreatePaymentOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type CreateRestaurantInput = {
   address: Scalars['String'];
   categoryName: Scalars['String'];
-  coverImg: InputMaybe<Scalars['String']>;
+  coverImg?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
 export type CreateRestaurantOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type DeleteDishOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -118,7 +118,7 @@ export type DeleteRestaurantInput = {
 };
 
 export type DeleteRestaurantOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -127,46 +127,46 @@ export type Dish = {
   description: Scalars['String'];
   id: Scalars['Float'];
   name: Scalars['String'];
-  options: Maybe<Array<DishOption>>;
-  photo: Maybe<Scalars['String']>;
+  options?: Maybe<Array<DishOption>>;
+  photo?: Maybe<Scalars['String']>;
   price: Scalars['Int'];
   restaurant: Restaurant;
   updatedAt: Scalars['DateTime'];
 };
 
 export type DishChoice = {
-  extra: Maybe<Scalars['Int']>;
+  extra?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
 };
 
 export type DishChoiceInputType = {
-  extra: InputMaybe<Scalars['Int']>;
+  extra?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
 };
 
 export type DishOption = {
-  choices: Maybe<Array<DishChoice>>;
-  extra: Maybe<Scalars['Int']>;
+  choices?: Maybe<Array<DishChoice>>;
+  extra?: Maybe<Scalars['Int']>;
   name: Scalars['String'];
 };
 
 export type DishOptionInputType = {
-  choices: InputMaybe<Array<DishChoiceInputType>>;
-  extra: InputMaybe<Scalars['Int']>;
+  choices?: InputMaybe<Array<DishChoiceInputType>>;
+  extra?: InputMaybe<Scalars['Int']>;
   name: Scalars['String'];
 };
 
 export type EditDishInput = {
-  description: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   dishId: Scalars['Int'];
-  name: InputMaybe<Scalars['String']>;
-  options: InputMaybe<Array<DishOptionInputType>>;
-  photo: InputMaybe<Scalars['String']>;
-  price: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  options?: InputMaybe<Array<DishOptionInputType>>;
+  photo?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Int']>;
 };
 
 export type EditDishOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -176,30 +176,30 @@ export type EditOrderInput = {
 };
 
 export type EditOrderOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type EditProfileInput = {
-  email: InputMaybe<Scalars['String']>;
-  password: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
 };
 
 export type EditProfileOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
 export type EditRestaurantInput = {
-  address: InputMaybe<Scalars['String']>;
-  categoryName: InputMaybe<Scalars['String']>;
-  coverImg: InputMaybe<Scalars['String']>;
-  name: InputMaybe<Scalars['String']>;
+  address?: InputMaybe<Scalars['String']>;
+  categoryName?: InputMaybe<Scalars['String']>;
+  coverImg?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   restaurantId: Scalars['Float'];
 };
 
 export type EditRestaurantOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -208,25 +208,25 @@ export type GetOrderInput = {
 };
 
 export type GetOrderOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  order: Maybe<Order>;
+  order?: Maybe<Order>;
 };
 
 export type GetOrdersInput = {
-  status: InputMaybe<OrderStatus>;
+  status?: InputMaybe<OrderStatus>;
 };
 
 export type GetOrdersOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  orders: Maybe<Array<Order>>;
+  orders?: Maybe<Array<Order>>;
 };
 
 export type GetPaymentsOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  payments: Maybe<Array<Payment>>;
+  payments?: Maybe<Array<Payment>>;
 };
 
 export type LoginInput = {
@@ -235,9 +235,9 @@ export type LoginInput = {
 };
 
 export type LoginOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  token: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -330,12 +330,12 @@ export type MutationVerifyEmailArgs = {
 export type Order = {
   createdAt: Scalars['DateTime'];
   customer: User;
-  driver: Maybe<User>;
+  driver?: Maybe<User>;
   id: Scalars['Float'];
   items: Array<OrderItem>;
-  restaurant: Maybe<Restaurant>;
+  restaurant?: Maybe<Restaurant>;
   status: OrderStatus;
-  total: Maybe<Scalars['Float']>;
+  total?: Maybe<Scalars['Float']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -343,17 +343,17 @@ export type OrderItem = {
   createdAt: Scalars['DateTime'];
   dish: Dish;
   id: Scalars['Float'];
-  options: Maybe<Array<OrderItemOption>>;
+  options?: Maybe<Array<OrderItemOption>>;
   updatedAt: Scalars['DateTime'];
 };
 
 export type OrderItemOption = {
-  choice: Maybe<Scalars['String']>;
+  choice?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
 export type OrderItemOptionInputType = {
-  choice: InputMaybe<Scalars['String']>;
+  choice?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -429,8 +429,8 @@ export type QueryUserProfileArgs = {
 
 export type Restaurant = {
   address: Scalars['String'];
-  category: Maybe<Category>;
-  coverImg: Maybe<Scalars['String']>;
+  category?: Maybe<Category>;
+  coverImg?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Float'];
   isPromoted: Scalars['Boolean'];
@@ -438,7 +438,7 @@ export type Restaurant = {
   name: Scalars['String'];
   orders: Array<Order>;
   owner: User;
-  promotedUntil: Maybe<Scalars['DateTime']>;
+  promotedUntil?: Maybe<Scalars['DateTime']>;
   updatedAt: Scalars['DateTime'];
 };
 
@@ -447,34 +447,34 @@ export type RestaurantInput = {
 };
 
 export type RestaurantOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  restaurant: Maybe<Restaurant>;
+  restaurant?: Maybe<Restaurant>;
 };
 
 export type RestaurantsInput = {
-  page: Scalars['Int'];
+  page?: Scalars['Int'];
 };
 
 export type RestaurantsOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  results: Maybe<Array<Restaurant>>;
-  totalPages: Maybe<Scalars['Int']>;
-  totalResults: Maybe<Scalars['Int']>;
+  results?: Maybe<Array<Restaurant>>;
+  totalPages?: Maybe<Scalars['Int']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type SearchRestaurantInput = {
-  page: Scalars['Int'];
+  page?: Scalars['Int'];
   query: Scalars['String'];
 };
 
 export type SearchRestaurantOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  restaurants: Maybe<Array<Restaurant>>;
-  totalPages: Maybe<Scalars['Int']>;
-  totalResults: Maybe<Scalars['Int']>;
+  restaurants?: Maybe<Array<Restaurant>>;
+  totalPages?: Maybe<Scalars['Int']>;
+  totalResults?: Maybe<Scalars['Int']>;
 };
 
 export type Subscription = {
@@ -493,7 +493,7 @@ export type TakeOrderInput = {
 };
 
 export type TakeOrderOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -505,16 +505,16 @@ export type User = {
   password: Scalars['String'];
   payments: Array<Payment>;
   restaurants: Array<Restaurant>;
-  rides: Maybe<Array<Order>>;
+  rides?: Maybe<Array<Order>>;
   role: UserRole;
   updatedAt: Scalars['DateTime'];
   verified: Scalars['Boolean'];
 };
 
 export type UserProfileOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
-  user: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 export enum UserRole {
@@ -528,7 +528,7 @@ export type VerifyEmailInput = {
 };
 
 export type VerifyEmailOutput = {
-  error: Maybe<Scalars['String']>;
+  error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
 };
 
@@ -542,26 +542,34 @@ export type CreateAccountMutationVariables = Exact<{
 }>;
 
 
-export type CreateAccountMutation = { createAccount: { ok: boolean, error: string | null } };
+export type CreateAccountMutation = { createAccount: { ok: boolean, error?: string | null } };
 
 export type LoginMutationVariables = Exact<{
   loginInput: LoginInput;
 }>;
 
 
-export type LoginMutation = { login: { ok: boolean, error: string | null, token: string | null } };
+export type LoginMutation = { login: { ok: boolean, error?: string | null, token?: string | null } };
 
 export type VerifyEmailMutationVariables = Exact<{
   verifyEmailInput: VerifyEmailInput;
 }>;
 
 
-export type VerifyEmailMutation = { verifyEmail: { ok: boolean, error: string | null } };
+export type VerifyEmailMutation = { verifyEmail: { ok: boolean, error?: string | null } };
 
 export type VerifiedUserFragment = { verified: boolean } & { ' $fragmentName'?: 'VerifiedUserFragment' };
+
+export type EditProfileMutationVariables = Exact<{
+  editProfileInput: EditProfileInput;
+}>;
+
+
+export type EditProfileMutation = { editProfile: { ok: boolean, error?: string | null } };
 
 export const VerifiedUserFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"VerifiedUser"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"User"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]} as unknown as DocumentNode<VerifiedUserFragment, unknown>;
 export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"verified"}}]}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
 export const CreateAccountDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateAccount"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createAccountInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateAccountInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createAccount"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createAccountInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode<CreateAccountMutation, CreateAccountMutationVariables>;
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LoginInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"loginInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}},{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
 export const VerifyEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"verifyEmailInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyEmailInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"verifyEmailInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode<VerifyEmailMutation, VerifyEmailMutationVariables>;
+export const EditProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"editProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"editProfileInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EditProfileInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"editProfile"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"editProfileInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ok"}},{"kind":"Field","name":{"kind":"Name","value":"error"}}]}}]}}]} as unknown as DocumentNode<EditProfileMutation, EditProfileMutationVariables>;

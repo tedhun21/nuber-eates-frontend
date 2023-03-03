@@ -13,7 +13,6 @@ const config: CodegenConfig = {
         gqlTagName: "graphql",
       },
       config: {
-        avoidOptionals: true,
         skipTypename: true,
         addUnderscoreToArgsType: true,
       },

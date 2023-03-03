@@ -19,6 +19,7 @@ const documents = {
     "\n  mutation VerifyEmail($verifyEmailInput: VerifyEmailInput!) {\n    verifyEmail(input: $verifyEmailInput) {\n      ok\n      error\n    }\n  }\n": types.VerifyEmailDocument,
     "\n          fragment VerifiedUser on User {\n            verified\n          }\n        ": types.VerifiedUserFragmentDoc,
     "\n  mutation editProfile($editProfileInput: EditProfileInput!) {\n    editProfile(input: $editProfileInput) {\n      ok\n      error\n    }\n  }\n": types.EditProfileDocument,
+    "\n            fragment EditedUser on User {\n              email\n              verified\n            }\n          ": types.EditedUserFragmentDoc,
 };
 
 /**
@@ -59,6 +60,10 @@ export function graphql(source: "\n          fragment VerifiedUser on User {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation editProfile($editProfileInput: EditProfileInput!) {\n    editProfile(input: $editProfileInput) {\n      ok\n      error\n    }\n  }\n"): (typeof documents)["\n  mutation editProfile($editProfileInput: EditProfileInput!) {\n    editProfile(input: $editProfileInput) {\n      ok\n      error\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n            fragment EditedUser on User {\n              email\n              verified\n            }\n          "): (typeof documents)["\n            fragment EditedUser on User {\n              email\n              verified\n            }\n          "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

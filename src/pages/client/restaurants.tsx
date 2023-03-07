@@ -1,4 +1,6 @@
 import { useQuery } from "@apollo/client";
+import { useState } from "react";
+import { Restaurant } from "../../components/restaurant";
 import { graphql } from "../../gql";
 import { RestaurantsPageQuery, RestaurantsPageQueryVariables } from "../../gql/graphql";
 
@@ -35,13 +37,20 @@ const RESTAURANTS_QUERY = graphql(`
 `);
 
 export const Restaurants = () => {
-  const { data, loading, error } = useQuery<RestaurantsPageQuery, RestaurantsPageQueryVariables>(RESTAURANTS_QUERY, {
+  const [page, setPage] = useState(1);
+  const { data, loading } = useQuery<RestaurantsPageQuery, RestaurantsPageQueryVariables>(RESTAURANTS_QUERY, {
     variables: {
       restaurantsInput: {
-        page: 1,
+        page,
       },
     },
   });
+  const onNextPageClick = () => {
+    setPage((current) => current + 1);
+  };
+  const onPrevPageClick = () => {
+    setPage((current) => current - 1);
+  };
   console.log(data);
   return (
     <div>
@@ -49,7 +58,7 @@ export const Restaurants = () => {
         <input className="input w-3/12 rounded-md border-0" type="Search" placeholder="Search Restaurants" />
       </form>
       {!loading && (
-        <div className="mx-auto mt-8 max-w-screen-2xl">
+        <div className="mx-auto mt-8 max-w-screen-2xl pb-20">
           <div className="mx-auto flex max-w-screen-sm justify-around">
             {data?.allCategories.categories?.map((category) => (
               <div key={category.id} className="group flex cursor-pointer flex-col items-center">
@@ -58,14 +67,29 @@ export const Restaurants = () => {
               </div>
             ))}
           </div>
-          <div className="mt-10 grid grid-cols-3 gap-7 gap-x-5 gap-y-10">
+          <div className="mt-16 grid grid-cols-3 gap-7 gap-x-5 gap-y-10">
             {data?.restaurants.results?.map((restaurant) => (
-              <div key={restaurant.id}>
-                <div style={{ backgroundImage: `url(${restaurant.coverImg})` }} className="mb-3 bg-red-500 bg-cover bg-center py-28"></div>
-                <h3 className="text-xl font-medium">{restaurant.name}</h3>
-                <span className="border-t-2 border-gray-200">{restaurant.category?.name}</span>
-              </div>
+              <Restaurant id={restaurant.id} coverImg={restaurant.coverImg} name={restaurant.name} categoryName={restaurant.category?.name} />
             ))}
+          </div>
+          <div className="mx-auto mt-10 grid max-w-md grid-cols-3 items-center text-center">
+            {page > 1 ? (
+              <button onClick={onPrevPageClick} className="text-2xl font-medium">
+                &larr;
+              </button>
+            ) : (
+              <div></div>
+            )}
+            <span className="mx-5">
+              Page {page} of {data?.restaurants.totalPages}
+            </span>
+            {page !== data?.restaurants.totalPages ? (
+              <button onClick={onNextPageClick} className="text-2xl font-medium">
+                &rarr;
+              </button>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       )}

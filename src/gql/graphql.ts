@@ -106,6 +106,7 @@ export type CreateRestaurantInput = {
 export type CreateRestaurantOutput = {
   error?: Maybe<Scalars['String']>;
   ok: Scalars['Boolean'];
+  restaurantId: Scalars['Float'];
 };
 
 export type DeleteDishOutput = {

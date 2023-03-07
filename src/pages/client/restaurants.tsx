@@ -1,8 +1,15 @@
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
 import { graphql } from "../../gql";
 import { RestaurantsPageQuery, RestaurantsPageQueryVariables } from "../../gql/graphql";
+
+interface IFormProps {
+  searchTerm: string;
+}
 
 const RESTAURANTS_QUERY = graphql(`
   query RestaurantsPage($restaurantsInput: RestaurantsInput!) {
@@ -37,6 +44,7 @@ const RESTAURANTS_QUERY = graphql(`
 `);
 
 export const Restaurants = () => {
+  const history = useHistory();
   const [page, setPage] = useState(1);
   const { data, loading } = useQuery<RestaurantsPageQuery, RestaurantsPageQueryVariables>(RESTAURANTS_QUERY, {
     variables: {
@@ -51,11 +59,25 @@ export const Restaurants = () => {
   const onPrevPageClick = () => {
     setPage((current) => current - 1);
   };
-  console.log(data);
+  const { register, handleSubmit } = useForm<IFormProps>();
+  const onSearchSubmit = ({ searchTerm }: IFormProps) => {
+    history.push({
+      pathname: "/search",
+      search: `?term=${searchTerm}`,
+    });
+  };
   return (
     <div>
-      <form className="flex w-full items-center justify-center bg-gray-800 py-40">
-        <input className="input w-3/12 rounded-md border-0" type="Search" placeholder="Search Restaurants" />
+      <Helmet>
+        <title>Home | Nuber Eats</title>
+      </Helmet>
+      <form onSubmit={handleSubmit(onSearchSubmit)} className="flex w-full items-center justify-center bg-gray-800 py-40">
+        <input
+          {...register("searchTerm", { required: true, min: 3 })}
+          className="input w-3/4 rounded-md border-0 md:w-3/12"
+          type="Search"
+          placeholder="Search Restaurants"
+        />
       </form>
       {!loading && (
         <div className="mx-auto mt-8 max-w-screen-2xl pb-20">
@@ -67,9 +89,15 @@ export const Restaurants = () => {
               </div>
             ))}
           </div>
-          <div className="mt-16 grid grid-cols-3 gap-7 gap-x-5 gap-y-10">
+          <div className="mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">
             {data?.restaurants.results?.map((restaurant) => (
-              <Restaurant id={restaurant.id} coverImg={restaurant.coverImg} name={restaurant.name} categoryName={restaurant.category?.name} />
+              <Restaurant
+                key={restaurant.id}
+                id={restaurant.id}
+                coverImg={restaurant.coverImg}
+                name={restaurant.name}
+                categoryName={restaurant.category?.name}
+              />
             ))}
           </div>
           <div className="mx-auto mt-10 grid max-w-md grid-cols-3 items-center text-center">

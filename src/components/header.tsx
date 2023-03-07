@@ -15,7 +15,9 @@ export default function Header() {
       )}
       <header className="py-4">
         <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-5 xl:px-0">
-          <img src={nuberLogo} className="w-24" alt="Nuber Eats" />
+          <Link to="/">
+            <img src={nuberLogo} className="w-24" alt="Nuber Eats" />
+          </Link>
           <span className="text-xs">
             <Link to="/edit-profile">
               <FontAwesomeIcon icon={faUser} className="text-xl" />

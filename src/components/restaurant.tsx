@@ -5,7 +5,7 @@ interface IRestaurantProps {
   categoryName?: string;
 }
 
-export const Restaurant = ({ coverImg, name, categoryName }: IRestaurantProps) => {
+export const Restaurant = ({ id, coverImg, name, categoryName }: IRestaurantProps) => {
   return (
     <div className="flex flex-col">
       <div style={{ backgroundImage: `url(${coverImg})` }} className="mb-3 bg-red-500 bg-cover bg-center py-28"></div>

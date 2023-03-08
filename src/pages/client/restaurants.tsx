@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Restaurant } from "../../components/restaurant";
 import { graphql } from "../../gql";
 import { RestaurantsPageQuery, RestaurantsPageQueryVariables } from "../../gql/graphql";
@@ -17,27 +17,15 @@ const RESTAURANTS_QUERY = graphql(`
       ok
       error
       categories {
-        id
-        name
-        coverImg
-        slug
-        restaurantCount
+        ...CategoryParts
       }
     }
     restaurants(input: $restaurantsInput) {
       ok
       error
       totalPages
-      totalResults
       results {
-        id
-        name
-        coverImg
-        category {
-          name
-        }
-        address
-        isPromoted
+        ...RestaurantParts
       }
     }
   }
@@ -66,6 +54,7 @@ export const Restaurants = () => {
       search: `?term=${searchTerm}`,
     });
   };
+  console.log(data);
   return (
     <div>
       <Helmet>
@@ -83,10 +72,12 @@ export const Restaurants = () => {
         <div className="mx-auto mt-8 max-w-screen-2xl pb-20">
           <div className="mx-auto flex max-w-screen-sm justify-around">
             {data?.allCategories.categories?.map((category) => (
-              <div key={category.id} className="group flex cursor-pointer flex-col items-center">
-                <div className="h-16 w-16 rounded-full bg-cover group-hover:bg-gray-100" style={{ backgroundImage: `url(${category.coverImg})` }}></div>
-                <span className="mt-1 text-center text-sm font-medium">{category.name}</span>
-              </div>
+              <Link key={category.id} to={`/category/${category.slug}`}>
+                <div className="group flex cursor-pointer flex-col items-center">
+                  <div className="h-16 w-16 rounded-full bg-cover group-hover:bg-gray-100" style={{ backgroundImage: `url(${category.coverImg})` }}></div>
+                  <span className="mt-1 text-center text-sm font-medium">{category.name}</span>
+                </div>
+              </Link>
             ))}
           </div>
           <div className="mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">

@@ -1,11 +1,11 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory, useLocation } from "react-router-dom";
-import { RESTAURANT_FRAGMENT } from "../../fragment";
+import { graphql } from "../../gql";
 import { SearchRestaurantQuery, SearchRestaurantQueryVariables } from "../../gql/graphql";
 
-const SEARCH_RESTAURANT = gql`
+const SEARCH_RESTAURANT = graphql(`
   query SearchRestaurant($SearchRestaurantInput: SearchRestaurantInput!) {
     searchRestaurant(input: $SearchRestaurantInput) {
       ok
@@ -17,8 +17,7 @@ const SEARCH_RESTAURANT = gql`
       }
     }
   }
-  ${RESTAURANT_FRAGMENT}
-`;
+`);
 
 export const Search = () => {
   const location = useLocation();

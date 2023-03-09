@@ -54,7 +54,6 @@ export const Restaurants = () => {
       search: `?term=${searchTerm}`,
     });
   };
-  console.log(data);
   return (
     <div>
       <Helmet>
@@ -80,7 +79,7 @@ export const Restaurants = () => {
               </Link>
             ))}
           </div>
-          <div className="mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">
+          <div className="mx-3 mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">
             {data?.restaurants.results?.map((restaurant) => (
               <Restaurant
                 key={restaurant.id}

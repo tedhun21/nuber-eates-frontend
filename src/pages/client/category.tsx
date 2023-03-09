@@ -53,25 +53,24 @@ export const Category = () => {
   const onNextClick = () => {
     setPage((current) => current + 1);
   };
-  console.log(categoryData);
   return (
     <div>
       <div className="mx-auto flex max-w-screen-sm justify-around">
         {categoriesData?.allCategories.categories?.map((category) => (
-          <Link to={`/category/${category.slug}`}>
-            <div className="flex flex-col items-center">
-              <div className="h-16 w-16 rounded-full bg-cover" style={{ backgroundImage: `url(${category.coverImg})` }}></div>
-              <span>{category.name}</span>
+          <Link key={category.id} to={`/category/${category.slug}`}>
+            <div className="group flex cursor-pointer flex-col items-center">
+              <div className="h-16 w-16 rounded-full bg-cover group-hover:bg-gray-100" style={{ backgroundImage: `url(${category.coverImg})` }}></div>
+              <span className="mt-1 text-center text-sm font-medium">{category.name}</span>
             </div>
           </Link>
         ))}
       </div>
-      <div className="mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">
+      <div className="mx-3 mt-16 grid gap-7 gap-x-5 gap-y-10 md:grid-cols-3">
         {categoryData?.category.restaurants?.map((restaurant) => (
           <Restaurant key={restaurant.id} id={restaurant.id} coverImg={restaurant.coverImg} name={restaurant.name} categoryName={restaurant.category?.name} />
         ))}
       </div>
-      <div className="mx-auto mt-10 grid max-w-md grid-cols-3 items-center justify-center text-center pb-20">
+      <div className="mx-auto mt-10 grid max-w-md grid-cols-3 items-center justify-center pb-20 text-center">
         {page > 1 ? (
           <button onClick={onPrevClick} className="text-2xl font-medium">
             &larr;

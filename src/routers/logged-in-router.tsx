@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import Header from "../components/header";
 import { useMe } from "../hooks/useMe";
 import { Category } from "../pages/client/category";
+import { RestaurantDetail } from "../pages/client/restaurantDetail";
 import { Restaurants } from "../pages/client/restaurants";
 import { Search } from "../pages/client/search";
 import { ConfirmEmail } from "../pages/user/confirm-email";
@@ -22,6 +23,9 @@ const ClientRoutes = [
   </Route>,
   <Route key={5} path="/category/:slug" exact>
     <Category />
+  </Route>,
+  <Route key={6} path="/restaurant/:id" exact>
+    <RestaurantDetail />
   </Route>,
 ];
 

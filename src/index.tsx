@@ -5,7 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "./styles/global.css";
 import { client } from "./apollo";
 import { HelmetProvider } from "react-helmet-async";
-import { App } from "./components/App";
+import { App } from "./components/app";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(

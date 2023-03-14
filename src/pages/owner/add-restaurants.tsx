@@ -31,6 +31,7 @@ export const AddRestaurant = () => {
     } = data;
     if (ok) {
       setUploading(false);
+      // fake
     }
   };
   const [createRestaurantMutation, { data }] = useMutation<CreateRestaurantMutation, CreateRestaurantMutationVariables>(CREATE_RESTAURANT_MUTAION, {

@@ -81,7 +81,6 @@ export const LoggedInRouter = () => {
             {route.component}
           </Route>
         ))}
-
         <Redirect to="/" />
       </Switch>
     </Router>

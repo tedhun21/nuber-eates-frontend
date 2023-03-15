@@ -10,6 +10,7 @@ import { AddRestaurant } from "../pages/owner/add-restaurants";
 import { MyRestaurants } from "../pages/owner/my-restaurants";
 import { ConfirmEmail } from "../pages/user/confirm-email";
 import { EditProfile } from "../pages/user/edit-profile";
+import { AddDish } from "../pages/owner/add-dish";
 
 const clientRoutes = [
   {
@@ -54,6 +55,10 @@ const restaurantRoutes = [
     path: "/restaurant/:id",
     component: <MyRestaurant />,
   },
+  {
+    path:"/restaurant/:id/add-dish",
+    component:<AddDish />
+  }
 ];
 
 export const LoggedInRouter = () => {
@@ -86,7 +91,7 @@ export const LoggedInRouter = () => {
             {route.component}
           </Route>
         ))}
-        {/* <Redirect to="/" /> */}
+        <Redirect to="/" />
       </Switch>
     </Router>
   );

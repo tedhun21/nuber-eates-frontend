@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import Header from "../components/header";
+import { MyRestaurant } from "../pages/owner/my-restaurant";
 import { useMe } from "../hooks/useMe";
 import { Category } from "../pages/client/category";
 import { RestaurantDetail } from "../pages/client/restaurantDetail";
@@ -49,6 +50,10 @@ const restaurantRoutes = [
     path: "/add-restaurant",
     component: <AddRestaurant />,
   },
+  {
+    path: "/restaurant/:id",
+    component: <MyRestaurant />,
+  },
 ];
 
 export const LoggedInRouter = () => {
@@ -81,7 +86,7 @@ export const LoggedInRouter = () => {
             {route.component}
           </Route>
         ))}
-        <Redirect to="/" />
+        {/* <Redirect to="/" /> */}
       </Switch>
     </Router>
   );

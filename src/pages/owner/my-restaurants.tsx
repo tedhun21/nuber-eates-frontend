@@ -23,14 +23,7 @@ export const MyRestaurants = () => {
   const client = useApolloClient();
   useEffect(() => {
     const queryResult = client.readQuery({ query: MY_RESTAURANTS_QUERY });
-    console.log(queryResult);
-    client.writeQuery({
-      query: MY_RESTAURANTS_QUERY,
-      data: {
-        ...queyrResult,
-        restaurant,
-      },
-    });
+    const result = queryResult?.myRestaurants.restaurants;
   });
   return (
     <div>
@@ -38,6 +31,7 @@ export const MyRestaurants = () => {
         <title>My Restaurants | Nuber Eats</title>
       </Helmet>
       <div className="mx-auto mt-32 max-w-screen-2xl">
+        <Link to="/add-restaurant">Create one &rarr;</Link>
         <h2 className="mb-10 text-4xl font-medium">My Restaurants</h2>
       </div>
       {data?.myRestaurants.ok && data?.myRestaurants.restaurants?.length === 0 ? (

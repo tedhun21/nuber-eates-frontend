@@ -11,6 +11,7 @@ import { MyRestaurants } from "../pages/owner/my-restaurants";
 import { ConfirmEmail } from "../pages/user/confirm-email";
 import { EditProfile } from "../pages/user/edit-profile";
 import { AddDish } from "../pages/owner/add-dish";
+import { TestPage } from "../pages/owner/test-page";
 
 const clientRoutes = [
   {
@@ -56,9 +57,13 @@ const restaurantRoutes = [
     component: <MyRestaurant />,
   },
   {
-    path:"/restaurant/:id/add-dish",
-    component:<AddDish />
-  }
+    path: "/restaurant/:id/add-dish",
+    component: <AddDish />,
+  },
+  {
+    path: "/test",
+    component: <TestPage />,
+  },
 ];
 
 export const LoggedInRouter = () => {

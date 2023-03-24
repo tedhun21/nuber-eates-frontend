@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
+import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
 
 export const MY_RESTAURANT_QUERY = graphql(`
@@ -49,7 +50,17 @@ export const MyRestaurant = () => {
             Buy Promotion &rarr;
           </Link>
         </div>
-        <div className="mt-10">{data?.myRestaurant.restaurant?.menu.length === 0 ? <h4>Please upload a dish!</h4> : null}</div>
+        <div className="mt-10">
+          {data?.myRestaurant.restaurant?.menu.length === 0 ? (
+            <h4>Please upload a dish!</h4>
+          ) : (
+            <div className="mt-16 grid gap-x-5 gap-y-10 md:grid-cols-3">
+              {data?.myRestaurant.restaurant?.menu.map((dish) => (
+                <Dish key={dish.id} name={dish.name} price={dish.price} description={dish.description} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import Button from "../../components/button";
 import { graphql } from "../../gql";
 import { CreateDishMutation, CreateDishMutationVariables } from "../../gql/graphql";
 import { MY_RESTAURANT_QUERY } from "./my-restaurant";
+import { OptionFields } from "./optionField/fieldArray";
 
 const CREATE_DISH_MUTATION = graphql(`
   mutation CreateDish($createDishInput: CreateDishInput!) {
@@ -20,7 +21,6 @@ const CREATE_DISH_MUTATION = graphql(`
 interface IParams {
   id: string;
 }
-
 type OptionValues = {
   name: string;
   extra?: number;
@@ -32,6 +32,16 @@ interface IForm {
   options?: OptionValues[];
 }
 
+const defaultValues = {
+  options: [
+    {
+      name: "",
+      extra: 0,
+      choices: [{ name: "", extra: 0 }],
+    },
+  ],
+};
+
 export const AddDish = () => {
   const { id: restaurantId } = useParams<IParams>();
   const history = useHistory();
@@ -39,6 +49,9 @@ export const AddDish = () => {
     register,
     handleSubmit,
     control,
+    getValues,
+    reset,
+    setValue,
     formState: { errors, isValid },
   } = useForm<IForm>({
     defaultValues: {
@@ -77,6 +90,7 @@ export const AddDish = () => {
       alert("Create Dish!!!");
       history.goBack();
     }
+    console.log(name, price, description, options);
   };
   const [dishOption, setDishOption] = useState(false);
   const onDishOption = () => {
@@ -93,47 +107,15 @@ export const AddDish = () => {
         <input {...register("price", { required: "Price is required." })} className="input" type="number" placeholder="Price" min={0} />
         <input {...register("description", { required: "Description is required." })} className="input" type="text" placeholder="Description" />
         <div className="my-10">
-          <div className="flex">
-            <button className="text-lg font-medium" onClick={onDishOption} type="button">
-              Dish Option
-            </button>
-            {dishOption && (
-              <button
-                className="cursor-pointer bg-gray-700 px-2 py-1 text-white"
-                onClick={() => {
-                  append({ name: "", extra: 0 });
-                }}
-                type="button"
-              >
-                Add Dish Option +
-              </button>
-            )}
-          </div>
+          <button className={`cursor-pointer text-lg font-medium ${dishOption ? "bg-gray-700 text-white" : ""}`} onClick={onDishOption} type="button">
+            Dish Option
+          </button>
           {dishOption && (
             <ul className="mt-5">
-              {fields.map((item, index) => (
-                <li key={item.id} className="mx-4 mb-3 flex justify-between">
-                  <div>
-                    <input
-                      className="mr-3 w-36 border-2 py-2 px-3 focus:border-gray-600 focus:outline-none"
-                      {...register(`options.${index}.name`)}
-                      placeholder="Option Name"
-                    />
-                    <input
-                      className="w-36 border-2 px-3 py-2 focus:border-gray-600 focus:outline-none"
-                      {...register(`options.${index}.extra`, { valueAsNumber: true })}
-                      placeholder="Option Extra"
-                      type="number"
-                      min={0}
-                    />
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <button className="cursor-pointer bg-red-700 px-2 py-1 text-white" type="button" onClick={() => remove(index)}>
-                      Delete Option
-                    </button>
-                  </div>
-                </li>
-              ))}
+              <OptionFields {...{ control, register, defaultValues, getValues, setValue, errors }} />
+              <button className="mt-10" type="button" onClick={() => reset(defaultValues)}>
+                Options Reset
+              </button>
             </ul>
           )}
         </div>

@@ -3,7 +3,18 @@ import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
-import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryLabel,
+  VictoryLine,
+  VictoryPie,
+  VictoryTheme,
+  VictoryTooltip,
+  VictoryVoronoiContainer,
+  VictoryZoomContainer,
+} from "victory";
 
 export const MY_RESTAURANT_QUERY = graphql(`
   query myRestaurant($myRestaurantInput: MyRestaurantInput!) {
@@ -14,6 +25,9 @@ export const MY_RESTAURANT_QUERY = graphql(`
         ...RestaurantParts
         menu {
           ...DishParts
+        }
+        orders {
+          ...OrderParts
         }
       }
     }
@@ -64,25 +78,36 @@ export const MyRestaurant = () => {
         </div>
         <div className="mt-20 mb-10">
           <h4 className="text-center text-2xl font-medium">Sales</h4>
-          <div className="mx-auto w-full max-w-lg">
-            <VictoryChart domainPadding={20}>
-              <VictoryAxis
-                animate={{
-                  duration: 2000,
-                  easing: "bounce",
+          <div className="mt-10">
+            <VictoryChart
+              height={500}
+              theme={VictoryTheme.material}
+              width={window.innerWidth}
+              domainPadding={50}
+              containerComponent={<VictoryVoronoiContainer />}
+            >
+              <VictoryLine
+                labels={({ datum }) => `$${datum.y}`}
+                labelComponent={<VictoryTooltip style={{ fontSize: 18 } as any} renderInPortal dy={-20} />}
+                data={data?.myRestaurant.restaurant?.orders.map((order) => ({
+                  x: order.createdAt,
+                  y: order.total,
+                }))}
+                interpolation="natural"
+                style={{
+                  data: {
+                    strokeWidth: 5,
+                  },
                 }}
-                dependentAxis
-                label="Amount of Money"
-                tickValues={[20, 30, 40, 50, 60]}
               />
-              <VictoryAxis label="Days of Life" />
-              <VictoryBar
-                data={[
-                  { x: 10, y: 20 },
-                  { x: 20, y: 5 },
-                  { x: 35, y: 55 },
-                  { x: 45, y: 99 },
-                ]}
+              <VictoryAxis
+                tickLabelComponent={<VictoryLabel renderInPortal />}
+                style={{
+                  tickLabels: {
+                    fontSize: 20,
+                  } as any,
+                }}
+                tickFormat={(tick) => new Date(tick).toLocaleDateString("ko")}
               />
             </VictoryChart>
           </div>

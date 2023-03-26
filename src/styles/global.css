@@ -696,6 +696,10 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-20 {
+  margin-top: 5rem;
+}
+
 .mt-24 {
   margin-top: 6rem;
 }
@@ -718,10 +722,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mt-20 {
-  margin-top: 5rem;
 }
 
 .flex {
@@ -764,6 +764,10 @@ video {
   width: 100%;
 }
 
+.max-w-lg {
+  max-width: 32rem;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
@@ -774,14 +778,6 @@ video {
 
 .max-w-screen-sm {
   max-width: 640px;
-}
-
-.max-w-sm {
-  max-width: 24rem;
-}
-
-.max-w-lg {
-  max-width: 32rem;
 }
 
 .cursor-pointer {

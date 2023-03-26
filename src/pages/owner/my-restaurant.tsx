@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
+import { VictoryAxis, VictoryBar, VictoryChart } from "victory";
 
 export const MY_RESTAURANT_QUERY = graphql(`
   query myRestaurant($myRestaurantInput: MyRestaurantInput!) {
@@ -60,6 +61,31 @@ export const MyRestaurant = () => {
               ))}
             </div>
           )}
+        </div>
+        <div className="mt-20 mb-10">
+          <h4 className="text-center text-2xl font-medium">Sales</h4>
+          <div className="mx-auto w-full max-w-lg">
+            <VictoryChart domainPadding={20}>
+              <VictoryAxis
+                animate={{
+                  duration: 2000,
+                  easing: "bounce",
+                }}
+                dependentAxis
+                label="Amount of Money"
+                tickValues={[20, 30, 40, 50, 60]}
+              />
+              <VictoryAxis label="Days of Life" />
+              <VictoryBar
+                data={[
+                  { x: 10, y: 20 },
+                  { x: 20, y: 5 },
+                  { x: 35, y: 55 },
+                  { x: 45, y: 99 },
+                ]}
+              />
+            </VictoryChart>
+          </div>
         </div>
       </div>
     </div>

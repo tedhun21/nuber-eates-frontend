@@ -27,7 +27,8 @@ const documents = {
     "\n  mutation Login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      ok\n      error\n      token\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateDish($createDishInput: CreateDishInput!) {\n    createDish(input: $createDishInput) {\n      ok\n      error\n    }\n  }\n": types.CreateDishDocument,
     "\n  mutation CreateRestaurant($createRestaurantInput: CreateRestaurantInput!) {\n    createRestaurant(input: $createRestaurantInput) {\n      ok\n      error\n      restaurantId\n    }\n  }\n": types.CreateRestaurantDocument,
-    "\n  query myRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n": types.MyRestaurantDocument,
+    "\n  query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n": types.MyRestaurantDocument,
+    "\n  mutation CreatePayment($createPaymentInput: CreatePaymentInput!) {\n    createPayment(input: $createPaymentInput) {\n      ok\n      error\n    }\n  }\n": types.CreatePaymentDocument,
     "\n  query myRestaurants {\n    myRestaurants {\n      ok\n      error\n      restaurants {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.MyRestaurantsDocument,
     "\n  mutation VerifyEmail($verifyEmailInput: VerifyEmailInput!) {\n    verifyEmail(input: $verifyEmailInput) {\n      ok\n      error\n    }\n  }\n": types.VerifyEmailDocument,
     "\n          fragment VerifiedUser on User {\n            verified\n          }\n        ": types.VerifiedUserFragmentDoc,
@@ -108,7 +109,11 @@ export function graphql(source: "\n  mutation CreateRestaurant($createRestaurant
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query myRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query myRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreatePayment($createPaymentInput: CreatePaymentInput!) {\n    createPayment(input: $createPaymentInput) {\n      ok\n      error\n    }\n  }\n"): (typeof documents)["\n  mutation CreatePayment($createPaymentInput: CreatePaymentInput!) {\n    createPayment(input: $createPaymentInput) {\n      ok\n      error\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

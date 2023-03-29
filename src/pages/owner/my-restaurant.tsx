@@ -1,23 +1,14 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryLabel,
-  VictoryLine,
-  VictoryPie,
-  VictoryTheme,
-  VictoryTooltip,
-  VictoryVoronoiContainer,
-  VictoryZoomContainer,
-} from "victory";
+import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryTheme, VictoryTooltip, VictoryVoronoiContainer } from "victory";
+import { useMe } from "../../hooks/useMe";
+import { CreatePaymentMutation, CreatePaymentMutationVariables } from "../../gql/graphql";
 
 export const MY_RESTAURANT_QUERY = graphql(`
-  query myRestaurant($myRestaurantInput: MyRestaurantInput!) {
+  query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {
     myRestaurant(input: $myRestaurantInput) {
       ok
       error
@@ -30,6 +21,15 @@ export const MY_RESTAURANT_QUERY = graphql(`
           ...OrderParts
         }
       }
+    }
+  }
+`);
+
+const CREATE_PAYMENT_MUTATION = graphql(`
+  mutation CreatePayment($createPaymentInput: CreatePaymentInput!) {
+    createPayment(input: $createPaymentInput) {
+      ok
+      error
     }
   }
 `);
@@ -47,11 +47,26 @@ export const MyRestaurant = () => {
       },
     },
   });
+  const onCompleted = (data: CreatePaymentMutation) => {
+    if (data.createPayment.ok) {
+      alert("Your restaurant is beingpromoted!");
+    }
+  };
+  const [createPaymentMutation, { loading }] = useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CREATE_PAYMENT_MUTATION, { onCompleted });
+  const { data: userData } = useMe();
   const triggerPaddle = () => {
-    // @ts-ignores
-    window.Paddle.Setup({ vendor: 168303 });
-    // @ts-ignores
-    window.Paddle.Checkout.open({ product: 821271 });
+    if (userData?.me.email) {
+      // @ts-ignores
+      window.Paddle.Setup({ vendor: 168303 });
+      // @ts-ignores
+      window.Paddle.Checkout.open({
+        product: 821271,
+        email: userData.me.email,
+        successCallback: (data: any) => {
+          createPaymentMutation({ variables: { createPaymentInput: { transactionId: data.checkout.id, restaurantId: +id } } });
+        },
+      });
+    }
   };
   console.log(data);
 

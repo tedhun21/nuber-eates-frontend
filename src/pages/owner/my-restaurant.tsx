@@ -47,12 +47,19 @@ export const MyRestaurant = () => {
       },
     },
   });
+  const triggerPaddle = () => {
+    // @ts-ignores
+    window.Paddle.Setup({ vendor: 168303 });
+    // @ts-ignores
+    window.Paddle.Checkout.open({ product: 821271 });
+  };
   console.log(data);
 
   return (
     <div>
       <Helmet>
         <title>{data?.myRestaurant.restaurant?.name || "Loading..."}</title>
+        <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       </Helmet>
       <div className="bg-gray-700 bg-cover bg-center py-28" style={{ backgroundImage: `url(${data?.myRestaurant.restaurant?.coverImg})` }}></div>
       <div className="container mt-10">
@@ -61,9 +68,9 @@ export const MyRestaurant = () => {
           <Link to={`/restaurant/${id}/add-dish`} className="mr-8 bg-gray-800 py-2 px-10 text-white">
             Add Dish &rarr;
           </Link>
-          <Link to={``} className="bg-lime-700 py-2 px-8 text-white">
+          <span onClick={triggerPaddle} className="cursor-pointer bg-lime-700 py-2 px-8 text-white">
             Buy Promotion &rarr;
-          </Link>
+          </span>
         </div>
         <div className="mt-10">
           {data?.myRestaurant.restaurant?.menu.length === 0 ? (

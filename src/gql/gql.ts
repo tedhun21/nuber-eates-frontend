@@ -21,6 +21,7 @@ const documents = {
     "\n  query AllCategories {\n    allCategories {\n      ok\n      error\n      categories {\n        ...CategoryParts\n      }\n    }\n  }\n": types.AllCategoriesDocument,
     "\n  query Category($categoryInput: CategoryInput!) {\n    category(input: $categoryInput) {\n      ok\n      error\n      totalPages\n      totalResults\n      restaurants {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.CategoryDocument,
     "\n  query Restaurant($restaurantInput: RestaurantInput!) {\n    restaurant(input: $restaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n      }\n    }\n  }\n": types.RestaurantDocument,
+    "\n  mutation CreateOrder($createOrderInput: CreateOrderInput!) {\n    createOrder(input: $createOrderInput) {\n      ok\n      error\n    }\n  }\n": types.CreateOrderDocument,
     "\n  query RestaurantsPage($restaurantsInput: RestaurantsInput!) {\n    allCategories {\n      ok\n      error\n      categories {\n        ...CategoryParts\n      }\n    }\n    restaurants(input: $restaurantsInput) {\n      ok\n      error\n      totalPages\n      results {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.RestaurantsPageDocument,
     "\n  query SearchRestaurant($SearchRestaurantInput: SearchRestaurantInput!) {\n    searchRestaurant(input: $SearchRestaurantInput) {\n      ok\n      error\n      totalPages\n      totalResults\n      restaurants {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.SearchRestaurantDocument,
     "\n  mutation CreateAccount($createAccountInput: CreateAccountInput!) {\n    createAccount(input: $createAccountInput) {\n      ok\n      error\n    }\n  }\n": types.CreateAccountDocument,
@@ -82,6 +83,10 @@ export function graphql(source: "\n  query Category($categoryInput: CategoryInpu
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query Restaurant($restaurantInput: RestaurantInput!) {\n    restaurant(input: $restaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query Restaurant($restaurantInput: RestaurantInput!) {\n    restaurant(input: $restaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateOrder($createOrderInput: CreateOrderInput!) {\n    createOrder(input: $createOrderInput) {\n      ok\n      error\n    }\n  }\n"): (typeof documents)["\n  mutation CreateOrder($createOrderInput: CreateOrderInput!) {\n    createOrder(input: $createOrderInput) {\n      ok\n      error\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

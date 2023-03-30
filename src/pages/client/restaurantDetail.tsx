@@ -1,8 +1,10 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
+import { CreateOrderItemInput } from "../../gql/graphql";
 
 interface IRestaurantParams {
   id: string;
@@ -23,6 +25,15 @@ const RESTAURANT_QUERY = graphql(`
   }
 `);
 
+const CREATE_ORDER_MUTATION = graphql(`
+  mutation CreateOrder($createOrderInput: CreateOrderInput!) {
+    createOrder(input: $createOrderInput) {
+      ok
+      error
+    }
+  }
+`);
+
 export const RestaurantDetail = () => {
   const { id } = useParams<IRestaurantParams>();
   const { data, loading, error } = useQuery(RESTAURANT_QUERY, {
@@ -32,7 +43,15 @@ export const RestaurantDetail = () => {
       },
     },
   });
-  console.log(data);
+  const [createOrderMutation] = useMutation(CREATE_ORDER_MUTATION);
+  const [orderStarted, setOrderStarted] = useState(false);
+  const [orderItems, setOrderItems] = useState<CreateOrderItemInput[]>([]);
+  const triggerStartOrder = () => {
+    setOrderStarted(true);
+  };
+  const addItemToOrder = (dishId: number) => {
+    setOrderItems((current) => [{ dishId }]);
+  };
   return (
     <div>
       <Helmet>
@@ -45,10 +64,25 @@ export const RestaurantDetail = () => {
           <h6 className="text-sm font-light">{data?.restaurant.restaurant?.address}</h6>
         </div>
       </div>
-      <div className="container mt-16 grid gap-x-5 gap-y-10 md:grid-cols-3">
-        {data?.restaurant.restaurant?.menu.map((dish) => (
-          <Dish key={dish.id} name={dish.name} price={dish.price} description={dish.description} isCustomer={true} options={dish.options} />
-        ))}
+      <div className="container mt-20 flex flex-col items-end pb-32">
+        <button onClick={triggerStartOrder} className="btn px-10">
+          Start Order
+        </button>
+        <div className="mt-16 grid w-full gap-x-5 gap-y-10 md:grid-cols-3">
+          {data?.restaurant.restaurant?.menu.map((dish, index) => (
+            <Dish
+              id={dish.id}
+              key={index}
+              name={dish.name}
+              price={dish.price}
+              description={dish.description}
+              isCustomer={true}
+              options={dish.options}
+              orderStarted={orderStarted}
+              addItemToOrder={addItemToOrder}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

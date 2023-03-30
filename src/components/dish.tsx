@@ -1,17 +1,20 @@
 import { DishOption } from "../gql/graphql";
 
 interface IDishProps {
+  id?: number;
   name: string;
   price: number;
   description: string;
   isCustomer?: boolean;
   options?: DishOption[] | null;
+  orderStarted?: boolean;
+  addItemToOrder: (dishId: number) => void;
 }
 
-export const Dish = ({ name, price, description, isCustomer = false, options }: IDishProps) => {
+export const Dish = ({ id = 0, name, price, description, isCustomer = false, options, orderStarted = false, addItemToOrder }: IDishProps) => {
   console.log(options);
   return (
-    <div className="border px-8 py-4 transition-all hover:border-gray-800 ">
+    <div onClick={() => (orderStarted ? addItemToOrder(id) : null)} className="border px-8 py-4 transition-all hover:border-gray-800 ">
       <div className="mb-5">
         <h3 className="text-lg font-medium">{name}</h3>
         <h4 className="font-medium">{description}</h4>

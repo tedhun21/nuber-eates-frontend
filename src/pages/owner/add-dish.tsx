@@ -21,9 +21,14 @@ const CREATE_DISH_MUTATION = graphql(`
 interface IParams {
   id: string;
 }
+type ChoiceValues = {
+  name: string;
+  extra: number;
+};
 type OptionValues = {
   name: string;
   extra?: number;
+  choices?: ChoiceValues[];
 };
 interface IForm {
   name: string;

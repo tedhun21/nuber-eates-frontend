@@ -27,7 +27,7 @@ const clientRoutes = [
     component: <Category />,
   },
   {
-    path: "/restaurants/:id",
+    path: "/restaurant/:id",
     component: <RestaurantDetail />,
   },
 ];

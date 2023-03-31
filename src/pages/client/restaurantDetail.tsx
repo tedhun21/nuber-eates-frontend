@@ -49,9 +49,19 @@ export const RestaurantDetail = () => {
   const triggerStartOrder = () => {
     setOrderStarted(true);
   };
-  const addItemToOrder = (dishId: number) => {
-    setOrderItems((current) => [{ dishId }]);
+  const isSelected = (dishId: number) => {
+    return Boolean(orderItems.find((order) => order.dishId === dishId));
   };
+  const addItemToOrder = (dishId: number) => {
+    if (isSelected(dishId)) {
+      return;
+    }
+    setOrderItems((current) => [{ dishId }, ...current]);
+  };
+  const removeFromOrder = (dishId: number) => {
+    setOrderItems((current) => current.filter((dish) => dish.dishId !== dishId));
+  };
+  console.log(orderItems);
   return (
     <div>
       <Helmet>
@@ -66,11 +76,12 @@ export const RestaurantDetail = () => {
       </div>
       <div className="container mt-20 flex flex-col items-end pb-32">
         <button onClick={triggerStartOrder} className="btn px-10">
-          Start Order
+          {orderStarted ? "Ordering." : "Start Order"}
         </button>
         <div className="mt-16 grid w-full gap-x-5 gap-y-10 md:grid-cols-3">
           {data?.restaurant.restaurant?.menu.map((dish, index) => (
             <Dish
+              isSelected={isSelected(dish.id)}
               id={dish.id}
               key={index}
               name={dish.name}
@@ -80,6 +91,7 @@ export const RestaurantDetail = () => {
               options={dish.options}
               orderStarted={orderStarted}
               addItemToOrder={addItemToOrder}
+              removeFromOrder={removeFromOrder}
             />
           ))}
         </div>

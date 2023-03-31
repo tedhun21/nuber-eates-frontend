@@ -24,7 +24,7 @@ export const OptionFields = ({ control, register, getValues, setValue }) => {
         })}
       </ul>
       <section>
-        <button className="bg-green-400" type="button" onClick={() => append({ name: "", extra: 0 })}>
+        <button className="bg-lime-600 px-1 text-white" type="button" onClick={() => append({ name: "", extra: 0 })}>
           Add Dish Option
         </button>
       </section>

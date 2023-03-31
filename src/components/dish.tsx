@@ -8,13 +8,35 @@ interface IDishProps {
   isCustomer?: boolean;
   options?: DishOption[] | null;
   orderStarted?: boolean;
-  addItemToOrder: (dishId: number) => void;
+  addItemToOrder?: (dishId: number) => void;
+  removeFromOrder?: (dishId: number) => void;
+  isSelected?: boolean;
 }
 
-export const Dish = ({ id = 0, name, price, description, isCustomer = false, options, orderStarted = false, addItemToOrder }: IDishProps) => {
-  console.log(options);
+export const Dish = ({
+  id = 0,
+  name,
+  price,
+  description,
+  isCustomer = false,
+  options,
+  orderStarted = false,
+  addItemToOrder,
+  isSelected,
+  removeFromOrder,
+}: IDishProps) => {
+  const onClick = () => {
+    if (orderStarted) {
+      if (!isSelected && addItemToOrder) {
+        return addItemToOrder(id);
+      }
+      if (isSelected && removeFromOrder) {
+        return removeFromOrder(id);
+      }
+    }
+  };
   return (
-    <div onClick={() => (orderStarted ? addItemToOrder(id) : null)} className="border px-8 py-4 transition-all hover:border-gray-800 ">
+    <div onClick={onClick} className={`border px-8 py-4 transition-all ${isSelected ? "border-gray-800 " : "hover:border-gray-800"}`}>
       <div className="mb-5">
         <h3 className="text-lg font-medium">{name}</h3>
         <h4 className="font-medium">{description}</h4>

@@ -78,7 +78,7 @@ export type CreateOrderInput = {
 
 export type CreateOrderItemInput = {
   dishId: Scalars['Int'];
-  options: Array<OrderItemOptionInputType>;
+  options?: InputMaybe<Array<OrderItemOptionInputType>>;
 };
 
 export type CreateOrderOutput = {

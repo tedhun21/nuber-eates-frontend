@@ -95,7 +95,6 @@ export const AddDish = () => {
       alert("Create Dish!!!");
       history.goBack();
     }
-    console.log(name, price, description, options);
   };
   const [dishOption, setDishOption] = useState(false);
   const onDishOption = () => {

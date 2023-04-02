@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { DishOption } from "../gql/graphql";
 
 interface IDishProps {
@@ -11,7 +12,7 @@ interface IDishProps {
   options?: DishOption[] | null;
   addItemToOrder?: (dishId: number) => void;
   removeFromOrder?: (dishId: number) => void;
-  addOptionToItem?: (dishId: number, option: any) => void;
+  children?: React.ReactNode;
 }
 
 export const Dish = ({
@@ -25,7 +26,7 @@ export const Dish = ({
   addItemToOrder,
   isSelected,
   removeFromOrder,
-  addOptionToItem,
+  children: dishOptions,
 }: IDishProps) => {
   const onClick = () => {
     if (orderStarted) {
@@ -49,12 +50,7 @@ export const Dish = ({
       {isCustomer && options && options?.length !== 0 && (
         <div>
           <h5 className="mt-5 mb-3 font-medium">Dish Options:</h5>
-          {options?.map((option, index) => (
-            <span onClick={() => (addOptionToItem ? addOptionToItem(id, { name: option.name }) : null)} className="flex items-center border" key={index}>
-              <h6 className="mr-2">{option.name}</h6>
-              <h6 className="text-sm opacity-75">(${option.extra})</h6>
-            </span>
-          ))}
+          {dishOptions}
         </div>
       )}
     </div>

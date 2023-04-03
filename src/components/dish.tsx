@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { DishOption } from "../gql/graphql";
 
 interface IDishProps {

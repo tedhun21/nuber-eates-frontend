@@ -108,7 +108,7 @@ export const RestaurantDetail = () => {
     const {
       createOrder: { ok, orderId },
     } = data;
-    if (data.createOrder.ok) {
+    if (ok) {
       history.push(`/orders/${orderId}`)
     }
   };

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { graphql } from "../gql";
-import { useQuery } from "@apollo/client";
-import { GetOrderQuery, GetOrderQueryVariables } from "../gql/graphql";
+import { useQuery, useSubscription } from "@apollo/client";
+import { GetOrderQuery, GetOrderQueryVariables, OrderUpdatesSubscription, OrderUpdatesSubscriptionVariables } from "../gql/graphql";
 
 const GET_ORDER_QUERY = graphql(`
   query GetOrder($getOrderInput: GetOrderInput!) {
@@ -9,19 +9,16 @@ const GET_ORDER_QUERY = graphql(`
       ok
       error
       order {
-        id
-        total
-        status
-        driver {
-          email
-        }
-        customer {
-          email
-        }
-        restaurant {
-          name
-        }
+        ...FullOrderParts
       }
+    }
+  }
+`);
+
+const ORDER_UPDATES_SUBSCRIPTION = graphql(`
+  subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {
+    orderUpdates(input: $orderUpdatesInput) {
+      ...FullOrderParts
     }
   }
 `);
@@ -37,6 +34,13 @@ export const Order = () => {
       getOrderInput: { id: +params.id },
     },
   });
-  console.log(data);
+  const { data: subscriptionData } = useSubscription<OrderUpdatesSubscription, OrderUpdatesSubscriptionVariables>(ORDER_UPDATES_SUBSCRIPTION, {
+    variables: {
+      orderUpdatesInput: {
+        id: +params.id,
+      },
+    },
+  });
+  console.log(subscriptionData);
   return <div>{params.id}</div>;
 };

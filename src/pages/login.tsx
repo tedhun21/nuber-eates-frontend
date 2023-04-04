@@ -7,7 +7,7 @@ import FormError from "../components/form-error";
 import { graphql } from "../gql/gql";
 import { LoginMutation, LoginMutationVariables } from "../gql/graphql";
 import nuberLogo from "../images/logo.svg";
-import { authToken, isLoggedInVar } from "../apollo";
+import { authTokenVar, isLoggedInVar } from "../apollo";
 import { LOCALSTORAGE_TOKEN } from "../constants";
 
 const LOGIN_MUTATION = graphql(`
@@ -37,7 +37,7 @@ export default function Login() {
     } = data;
     if (ok && token) {
       localStorage.setItem(LOCALSTORAGE_TOKEN, token);
-      authToken(token);
+      authTokenVar(token);
       isLoggedInVar(true);
     }
   };

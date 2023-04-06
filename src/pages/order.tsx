@@ -3,6 +3,7 @@ import { graphql } from "../gql";
 import { useQuery, useSubscription } from "@apollo/client";
 import { GetOrderQuery, GetOrderQueryVariables, OrderUpdatesSubscription, OrderUpdatesSubscriptionVariables } from "../gql/graphql";
 import { useEffect } from "react";
+import { useMe } from "../hooks/useMe";
 
 const GET_ORDER_QUERY = graphql(`
   query GetOrder($getOrderInput: GetOrderInput!) {
@@ -30,6 +31,7 @@ interface IParams {
 
 export const Order = () => {
   const params = useParams<IParams>();
+  const { data: userData } = useMe();
   const { data, subscribeToMore } = useQuery<GetOrderQuery, GetOrderQueryVariables>(GET_ORDER_QUERY, {
     variables: {
       getOrderInput: { id: +params.id },
@@ -81,7 +83,13 @@ export const Order = () => {
           <div className="border-t border-b border-gray-700 py-5">
             Driver: <span className="font-medium">{data?.getOrder.order?.driver?.email || "Not yet."}</span>
           </div>
-          <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>
+          {userData?.me.role === "Client" && <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>}
+          {userData?.me.role === "Owner" && (
+            <>
+              {data?.getOrder.order?.status === "Pending" && <button className="btn">Accept Order</button>}
+              {data?.getOrder.order?.status === "Cooking" && <button className="btn">Order Cooked</button>}
+            </>
+          )}
         </div>
       </div>
     </div>

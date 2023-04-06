@@ -1,11 +1,12 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Dish } from "../../components/dish";
 import { graphql } from "../../gql";
 import { VictoryAxis, VictoryChart, VictoryLabel, VictoryLine, VictoryTheme, VictoryTooltip, VictoryVoronoiContainer } from "victory";
 import { useMe } from "../../hooks/useMe";
 import { CreatePaymentMutation, CreatePaymentMutationVariables } from "../../gql/graphql";
+import { useEffect } from "react";
 
 export const MY_RESTAURANT_QUERY = graphql(`
   query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {
@@ -34,12 +35,21 @@ const CREATE_PAYMENT_MUTATION = graphql(`
   }
 `);
 
+const PENDING_ORDERS_SUBSCRIPTION = graphql(`
+  subscription PendingOrders {
+    pendingOrders {
+      ...FullOrderParts
+    }
+  }
+`);
+
 interface IParams {
   id: string;
 }
 
 export const MyRestaurant = () => {
   const { id } = useParams<IParams>();
+  const { data: userData } = useMe();
   const { data } = useQuery(MY_RESTAURANT_QUERY, {
     variables: {
       myRestaurantInput: {
@@ -53,7 +63,6 @@ export const MyRestaurant = () => {
     }
   };
   const [createPaymentMutation, { loading }] = useMutation<CreatePaymentMutation, CreatePaymentMutationVariables>(CREATE_PAYMENT_MUTATION, { onCompleted });
-  const { data: userData } = useMe();
   const triggerPaddle = () => {
     if (userData?.me.email) {
       // @ts-ignores
@@ -68,39 +77,50 @@ export const MyRestaurant = () => {
       });
     }
   };
-  console.log(data);
+  const { data: subscriptionData } = useSubscription(PENDING_ORDERS_SUBSCRIPTION);
+  const history = useHistory();
+  useEffect(() => {
+    if (subscriptionData?.pendingOrders.id) {
+      history.push(`/orders/${subscriptionData.pendingOrders.id}`);
+    }
+  }, [subscriptionData]);
+  console.log(subscriptionData);
 
   return (
     <div>
       <Helmet>
-        <title>{data?.myRestaurant.restaurant?.name || "Loading..."}</title>
+        <title>{data?.myRestaurant.restaurant?.name || "Loading..."} | Nuber Eats</title>
         <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
       </Helmet>
-      <div className="bg-gray-700 bg-cover bg-center py-28" style={{ backgroundImage: `url(${data?.myRestaurant.restaurant?.coverImg})` }}></div>
+      <div className="checkout-container"></div>
+      <div
+        className="bg-gray-700 bg-cover bg-center py-28"
+        style={{
+          backgroundImage: `url(${data?.myRestaurant.restaurant?.coverImg})`,
+        }}
+      ></div>
       <div className="container mt-10">
         <h2 className="mb-10 text-4xl font-medium">{data?.myRestaurant.restaurant?.name || "Loading..."}</h2>
-        <div>
-          <Link to={`/restaurant/${id}/add-dish`} className="mr-8 bg-gray-800 py-2 px-10 text-white">
-            Add Dish &rarr;
-          </Link>
-          <span onClick={triggerPaddle} className="cursor-pointer bg-lime-700 py-2 px-8 text-white">
-            Buy Promotion &rarr;
-          </span>
-        </div>
+        <Link to={`/restaurant/${id}/add-dish`} className=" mr-8 bg-gray-800 py-3 px-10 text-white">
+          Add Dish &rarr;
+        </Link>
+        <span onClick={triggerPaddle} className=" cursor-pointer bg-lime-700 py-3 px-10 text-white">
+          Buy Promotion &rarr;
+        </span>
         <div className="mt-10">
           {data?.myRestaurant.restaurant?.menu.length === 0 ? (
-            <h4>Please upload a dish!</h4>
+            <h4 className="mb-5 text-xl">Please upload a dish!</h4>
           ) : (
             <div className="mt-16 grid gap-x-5 gap-y-10 md:grid-cols-3">
-              {data?.myRestaurant.restaurant?.menu.map((dish) => (
-                <Dish key={dish.id} name={dish.name} price={dish.price} description={dish.description} />
+              {data?.myRestaurant.restaurant?.menu.map((dish, index) => (
+                <Dish key={index} name={dish.name} description={dish.description} price={dish.price} />
               ))}
             </div>
           )}
         </div>
         <div className="mt-20 mb-10">
           <h4 className="text-center text-2xl font-medium">Sales</h4>
-          <div className="mt-10">
+          <div className="  mt-10">
             <VictoryChart
               height={500}
               theme={VictoryTheme.material}

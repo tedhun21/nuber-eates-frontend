@@ -1,7 +1,16 @@
 import { useParams } from "react-router-dom";
 import { graphql } from "../gql";
-import { useQuery, useSubscription } from "@apollo/client";
-import { GetOrderQuery, GetOrderQueryVariables, OrderUpdatesSubscription, OrderUpdatesSubscriptionVariables } from "../gql/graphql";
+import { useMutation, useQuery, useSubscription } from "@apollo/client";
+import {
+  EditOrderMutation,
+  EditOrderMutationVariables,
+  GetOrderQuery,
+  GetOrderQueryVariables,
+  OrderStatus,
+  OrderUpdatesSubscription,
+  OrderUpdatesSubscriptionVariables,
+  UserRole,
+} from "../gql/graphql";
 import { useEffect } from "react";
 import { useMe } from "../hooks/useMe";
 
@@ -21,6 +30,15 @@ const ORDER_UPDATES_SUBSCRIPTION = graphql(`
   subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {
     orderUpdates(input: $orderUpdatesInput) {
       ...FullOrderParts
+    }
+  }
+`);
+
+const EDIT_ORDER_MUTATION = graphql(`
+  mutation EditOrder($editOrderInput: EditOrderInput!) {
+    editOrder(input: $editOrderInput) {
+      ok
+      error
     }
   }
 `);
@@ -67,7 +85,18 @@ export const Order = () => {
       },
     },
   });
-  console.log(subscriptionData);
+  const [editOrderMutation] = useMutation<EditOrderMutation, EditOrderMutationVariables>(EDIT_ORDER_MUTATION);
+  const onButtonClick = (newStatus: OrderStatus) => {
+    editOrderMutation({
+      variables: {
+        editOrderInput: {
+          id: +params.id,
+          status: newStatus,
+        },
+      },
+    });
+  };
+
   return (
     <div className="container mt-32 flex justify-center">
       <div className="flex w-full max-w-screen-sm flex-col justify-center border border-gray-800">
@@ -83,11 +112,22 @@ export const Order = () => {
           <div className="border-t border-b border-gray-700 py-5">
             Driver: <span className="font-medium">{data?.getOrder.order?.driver?.email || "Not yet."}</span>
           </div>
-          {userData?.me.role === "Client" && <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>}
-          {userData?.me.role === "Owner" && (
+          {userData?.me.role === UserRole.Client && (
+            <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>
+          )}
+          {userData?.me.role === UserRole.Owner && (
             <>
-              {data?.getOrder.order?.status === "Pending" && <button className="btn">Accept Order</button>}
-              {data?.getOrder.order?.status === "Cooking" && <button className="btn">Order Cooked</button>}
+              {data?.getOrder.order?.status === "Pending" && (
+                <button onClick={() => onButtonClick(OrderStatus.Cooking)} className="btn">
+                  Accept Order
+                </button>
+              )}
+              {data?.getOrder.order?.status === "Cooking" && (
+                <button onClick={() => onButtonClick(OrderStatus.Cooked)} className="btn">
+                  Order Cooked
+                </button>
+              )}
+              {data?.getOrder.order?.status !== OrderStatus.Cooking && data?.getOrder.order?.status !== OrderStatus.Pending && <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>}
             </>
           )}
         </div>

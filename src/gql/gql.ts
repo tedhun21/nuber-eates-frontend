@@ -29,6 +29,7 @@ const documents = {
     "\n  mutation Login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      ok\n      error\n      token\n    }\n  }\n": types.LoginDocument,
     "\n  query GetOrder($getOrderInput: GetOrderInput!) {\n    getOrder(input: $getOrderInput) {\n      ok\n      error\n      order {\n        ...FullOrderParts\n      }\n    }\n  }\n": types.GetOrderDocument,
     "\n  subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {\n    orderUpdates(input: $orderUpdatesInput) {\n      ...FullOrderParts\n    }\n  }\n": types.OrderUpdatesDocument,
+    "\n  mutation EditOrder($editOrderInput: EditOrderInput!) {\n    editOrder(input: $editOrderInput) {\n      ok\n      error\n    }\n  }\n": types.EditOrderDocument,
     "\n  mutation CreateDish($createDishInput: CreateDishInput!) {\n    createDish(input: $createDishInput) {\n      ok\n      error\n    }\n  }\n": types.CreateDishDocument,
     "\n  mutation CreateRestaurant($createRestaurantInput: CreateRestaurantInput!) {\n    createRestaurant(input: $createRestaurantInput) {\n      ok\n      error\n      restaurantId\n    }\n  }\n": types.CreateRestaurantDocument,
     "\n  query MyRestaurant($myRestaurantInput: MyRestaurantInput!) {\n    myRestaurant(input: $myRestaurantInput) {\n      ok\n      error\n      restaurant {\n        ...RestaurantParts\n        menu {\n          ...DishParts\n        }\n        orders {\n          ...OrderParts\n        }\n      }\n    }\n  }\n": types.MyRestaurantDocument,
@@ -119,6 +120,10 @@ export function graphql(source: "\n  query GetOrder($getOrderInput: GetOrderInpu
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {\n    orderUpdates(input: $orderUpdatesInput) {\n      ...FullOrderParts\n    }\n  }\n"): (typeof documents)["\n  subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {\n    orderUpdates(input: $orderUpdatesInput) {\n      ...FullOrderParts\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation EditOrder($editOrderInput: EditOrderInput!) {\n    editOrder(input: $editOrderInput) {\n      ok\n      error\n    }\n  }\n"): (typeof documents)["\n  mutation EditOrder($editOrderInput: EditOrderInput!) {\n    editOrder(input: $editOrderInput) {\n      ok\n      error\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

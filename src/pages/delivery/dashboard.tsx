@@ -18,7 +18,6 @@ export const Dashboard = () => {
   const [driverCoords, setDriverCoords] = useState<ICoords>({ lat: 0, lng: 0 });
   const [map, setMap] = useState<google.maps.Map>();
   const [maps, setMaps] = useState<any>();
-
   const onSuccess = ({ coords: { latitude, longitude } }: GeolocationPosition) => {
     setDriverCoords({ lat: latitude, lng: longitude });
   };
@@ -42,6 +41,25 @@ export const Dashboard = () => {
     setMap(map);
     setMaps(maps);
   };
+  const onGetRouteClick = () => {
+    if (map) {
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+      directionsService.route(
+        {
+          origin: new google.maps.LatLng(driverCoords.lat, driverCoords.lng),
+          destination: new google.maps.LatLng(driverCoords.lat + 0.05, driverCoords.lng + 0.05),
+          travelMode: google.maps.TravelMode.TRANSIT,
+        },
+        (result, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(result);
+          }
+        }
+      );
+    }
+  };
   return (
     <div>
       <div className="overflow-hidden" style={{ width: window.innerWidth, height: "50vh" }}>
@@ -49,16 +67,15 @@ export const Dashboard = () => {
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
           defaultZoom={16}
-          draggable={false}
+          draggable={true}
           defaultCenter={{
             lat: 36.58,
             lng: 125.95,
           }}
           bootstrapURLKeys={{ key: "AIzaSyAB93SRYZYuC2R6lcxN_FA5hah14l9p8FI" }}
-        >
-          <Driver lat={driverCoords.lat} lng={driverCoords.lng} />
-        </GoogleMapReact>
+        ></GoogleMapReact>
       </div>
+      <button onClick={onGetRouteClick}>Get Route</button>
     </div>
   );
 };

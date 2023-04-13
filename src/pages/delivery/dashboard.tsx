@@ -1,14 +1,23 @@
 import GoogleMapReact from "google-map-react";
 import { useEffect, useState } from "react";
 import { graphql } from "../../gql";
-import { useSubscription } from "@apollo/client";
-import { CookedOrdersSubscription, CookedOrdersSubscriptionVariables } from "../../gql/graphql";
-import { Link } from "react-router-dom";
+import { useMutation, useSubscription } from "@apollo/client";
+import { CookedOrdersSubscription, CookedOrdersSubscriptionVariables, TakeOrderMutation, TakeOrderMutationVariables } from "../../gql/graphql";
+import { useHistory } from "react-router-dom";
 
 const COOKED_ORDERS_SUBSCRIPTION = graphql(`
   subscription CookedOrders {
     cookedOrders {
       ...FullOrderParts
+    }
+  }
+`);
+
+const TAKE_ORDER_MUTATION = graphql(`
+  mutation TakeOrder($takeOrderInput: TakeOrderInput!) {
+    takeOrder(input: $takeOrderInput) {
+      ok
+      error
     }
   }
 `);
@@ -77,7 +86,27 @@ export const Dashboard = () => {
     if (cookedOrdersData?.cookedOrders.id) {
       makeRoute();
     }
-  }, []);
+  }, [cookedOrdersData]);
+  const history = useHistory();
+  const onCompleted = (data: TakeOrderMutation) => {
+    if (data.takeOrder.ok) {
+      history.push(`/orders/${cookedOrdersData?.cookedOrders.id}`);
+    }
+  };
+  const [takeOrderMutation] = useMutation<TakeOrderMutation, TakeOrderMutationVariables>(TAKE_ORDER_MUTATION, {
+    onCompleted,
+  });
+  const triggerMutation = (orderId: number) => {
+    takeOrderMutation({
+      variables: {
+        takeOrderInput: {
+          id: orderId,
+        },
+      },
+    });
+  };
+  console.log(cookedOrdersData);
+
   return (
     <div>
       <div className="overflow-hidden" style={{ width: window.innerWidth, height: "50vh" }}>
@@ -91,16 +120,18 @@ export const Dashboard = () => {
             lng: 125.95,
           }}
           bootstrapURLKeys={{ key: "AIzaSyAB93SRYZYuC2R6lcxN_FA5hah14l9p8FI" }}
-        ></GoogleMapReact>
+        >
+          <Driver lat={driverCoords.lat} lng={driverCoords.lng} />
+        </GoogleMapReact>
       </div>
       <div className=" relative -top-10 mx-auto max-w-screen-sm bg-white py-8 px-5 shadow-lg">
         {cookedOrdersData?.cookedOrders.restaurant ? (
           <>
             <h1 className="text-center  text-3xl font-medium">New Coocked Order</h1>
             <h1 className="my-3 text-center text-2xl font-medium">Pick it up soon @ {cookedOrdersData?.cookedOrders.restaurant?.name}</h1>
-            <Link to={`/orders/${cookedOrdersData?.cookedOrders.id}`} className="btn mt-5 block w-full text-center">
+            <button onClick={() => triggerMutation(cookedOrdersData?.cookedOrders.id)} className="btn mt-5 block w-full text-center">
               Accept Challenge &rarr;
-            </Link>
+            </button>
           </>
         ) : (
           <h1 className="text-center  text-3xl font-medium">No orders yet...</h1>

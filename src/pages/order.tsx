@@ -117,18 +117,37 @@ export const Order = () => {
           )}
           {userData?.me.role === UserRole.Owner && (
             <>
-              {data?.getOrder.order?.status === "Pending" && (
+              {data?.getOrder.order?.status === OrderStatus.Pending && (
                 <button onClick={() => onButtonClick(OrderStatus.Cooking)} className="btn">
                   Accept Order
                 </button>
               )}
-              {data?.getOrder.order?.status === "Cooking" && (
+              {data?.getOrder.order?.status === OrderStatus.Cooking && (
                 <button onClick={() => onButtonClick(OrderStatus.Cooked)} className="btn">
                   Order Cooked
                 </button>
               )}
-              {data?.getOrder.order?.status !== OrderStatus.Cooking && data?.getOrder.order?.status !== OrderStatus.Pending && <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>}
+              {data?.getOrder.order?.status !== OrderStatus.Cooking && data?.getOrder.order?.status !== OrderStatus.Pending && (
+                <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Status: {data?.getOrder.order?.status}</span>
+              )}
             </>
+          )}
+          {userData?.me.role === UserRole.Delivery && (
+            <>
+              {data?.getOrder.order?.status === OrderStatus.Cooked && (
+                <button onClick={() => onButtonClick(OrderStatus.PickedUp)} className="btn">
+                  Picked Up
+                </button>
+              )}
+              {data?.getOrder.order?.status === OrderStatus.PickedUp && (
+                <button onClick={() => onButtonClick(OrderStatus.Delivered)} className="btn">
+                  Order Delivered
+                </button>
+              )}
+            </>
+          )}
+          {data?.getOrder.order?.status === OrderStatus.Delivered && (
+            <span className=" mt-5 mb-3 text-center  text-2xl text-lime-600">Thank you for using Nuber Eats</span>
           )}
         </div>
       </div>

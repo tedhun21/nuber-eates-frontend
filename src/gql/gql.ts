@@ -26,6 +26,7 @@ const documents = {
     "\n  query RestaurantsPage($restaurantsInput: RestaurantsInput!) {\n    allCategories {\n      ok\n      error\n      categories {\n        ...CategoryParts\n      }\n    }\n    restaurants(input: $restaurantsInput) {\n      ok\n      error\n      totalPages\n      results {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.RestaurantsPageDocument,
     "\n  query SearchRestaurant($SearchRestaurantInput: SearchRestaurantInput!) {\n    searchRestaurant(input: $SearchRestaurantInput) {\n      ok\n      error\n      totalPages\n      totalResults\n      restaurants {\n        ...RestaurantParts\n      }\n    }\n  }\n": types.SearchRestaurantDocument,
     "\n  mutation CreateAccount($createAccountInput: CreateAccountInput!) {\n    createAccount(input: $createAccountInput) {\n      ok\n      error\n    }\n  }\n": types.CreateAccountDocument,
+    "\n  subscription CookedOrders {\n    cookedOrders {\n      ...FullOrderParts\n    }\n  }\n": types.CookedOrdersDocument,
     "\n  mutation Login($loginInput: LoginInput!) {\n    login(input: $loginInput) {\n      ok\n      error\n      token\n    }\n  }\n": types.LoginDocument,
     "\n  query GetOrder($getOrderInput: GetOrderInput!) {\n    getOrder(input: $getOrderInput) {\n      ok\n      error\n      order {\n        ...FullOrderParts\n      }\n    }\n  }\n": types.GetOrderDocument,
     "\n  subscription OrderUpdates($orderUpdatesInput: OrderUpdatesInput!) {\n    orderUpdates(input: $orderUpdatesInput) {\n      ...FullOrderParts\n    }\n  }\n": types.OrderUpdatesDocument,
@@ -108,6 +109,10 @@ export function graphql(source: "\n  query SearchRestaurant($SearchRestaurantInp
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateAccount($createAccountInput: CreateAccountInput!) {\n    createAccount(input: $createAccountInput) {\n      ok\n      error\n    }\n  }\n"): (typeof documents)["\n  mutation CreateAccount($createAccountInput: CreateAccountInput!) {\n    createAccount(input: $createAccountInput) {\n      ok\n      error\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription CookedOrders {\n    cookedOrders {\n      ...FullOrderParts\n    }\n  }\n"): (typeof documents)["\n  subscription CookedOrders {\n    cookedOrders {\n      ...FullOrderParts\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
